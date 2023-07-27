@@ -162,4 +162,8 @@ public class ShelterService {
         pets.stream().filter(pet -> pet.getPetId().equals(petId)).findFirst().ifPresent(pets::remove);
         shelterRepository.save(shelter);
     }
+
+    public ShelterDto add(Shelter newShelter) {
+        return mapToDto(shelterRepository.save(newShelter));
+    }
 }
