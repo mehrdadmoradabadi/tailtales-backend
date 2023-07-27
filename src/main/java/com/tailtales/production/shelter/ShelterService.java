@@ -6,6 +6,7 @@ import com.tailtales.production.pet.Pet;
 import com.tailtales.production.pet.PetService;
 import com.tailtales.production.utils.SearchResponse;
 import jakarta.persistence.EntityNotFoundException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +67,7 @@ public class ShelterService {
         return mapToDto(shelter);
     }
 
-    public Shelter update(Integer id, Shelter updatedShelter){
+    public Shelter update(Integer id, @NotNull Shelter updatedShelter){
         Shelter existingShelter = shelterRepository.findById(id).orElse(null);
         assert existingShelter != null;
         existingShelter.setWebsite(updatedShelter.getWebsite());
@@ -77,7 +78,7 @@ public class ShelterService {
 
     }
 
-    public PetDto mapPetToDto(Pet pet){
+    public PetDto mapPetToDto(@NotNull Pet pet){
         PetDto petDto = new PetDto();
         petDto.setName(pet.getName());
         petDto.setAge(pet.getAge());
@@ -165,5 +166,9 @@ public class ShelterService {
 
     public ShelterDto add(Shelter newShelter) {
         return mapToDto(shelterRepository.save(newShelter));
+    }
+
+    public void delete(Integer shelterId) {
+        shelterRepository.deleteById(shelterId);
     }
 }

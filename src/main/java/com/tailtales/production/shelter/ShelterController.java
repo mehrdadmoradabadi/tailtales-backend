@@ -20,17 +20,17 @@ public class ShelterController {
     public ApiResponse<SearchResponse<List<ShelterDto>>> fetchAll(@RequestParam(defaultValue = "1") int page,
                                                                   @RequestParam(required = false) String sortBy,
                                                                   @RequestParam(defaultValue = "asc") String sortDirection){
-        return new ApiResponse<>("200","Successful",shelterService.fetchAll(page, sortBy, sortDirection));
+        return new ApiResponse<>(shelterService.fetchAll(page, sortBy, sortDirection));
     }
 
     @GetMapping("/{shelterId")
     public ApiResponse<ShelterDto> findById(@PathVariable Integer shelterId){
-        return new ApiResponse<>("200","Successful",shelterService.findById(shelterId));
+        return new ApiResponse<>(shelterService.findById(shelterId));
     }
 
     @PatchMapping("/{shelterId")
     public ApiResponse<Shelter> updateById(@PathVariable Integer shelterId,@RequestBody Shelter updatedShelter){
-        return new ApiResponse<>("200","Successful",shelterService.update(shelterId,updatedShelter));
+        return new ApiResponse<>(shelterService.update(shelterId,updatedShelter));
     }
 
     @GetMapping("/{shelterId}/pets")
@@ -38,22 +38,22 @@ public class ShelterController {
                                                             @RequestParam(defaultValue = "1") int page,
                                                             @RequestParam(required = false) String sortBy,
                                                             @RequestParam(defaultValue = "asc") String sortDirection){
-        return new ApiResponse<>("200","Successful",shelterService.getPets(shelterId,page,sortBy,sortDirection));
+        return new ApiResponse<>(shelterService.getPets(shelterId,page,sortBy,sortDirection));
     }
 
     @PostMapping(consumes = {"application/json"})
     public ApiResponse<PetDto> addPet(@PathVariable Integer shelterId, @RequestBody Pet newPet){
-        return new ApiResponse<>("200","Successful",shelterService.addPet(shelterId,newPet));
+        return new ApiResponse<>(shelterService.addPet(shelterId,newPet));
     }
 
     @PatchMapping(path = "/{shelterId}/{petId}",consumes ={"application/json"} )
     public ApiResponse<PetDto> updatePet(@PathVariable Integer shelterId, @RequestBody Pet updatedPet){
-        return new ApiResponse<>("200","Successful",shelterService.updatePet(shelterId,updatedPet));
+        return new ApiResponse<>(shelterService.updatePet(shelterId,updatedPet));
     }
 
     @DeleteMapping(path = "/{shelterId}/{petId}")
     public ApiResponse<String> deletePet(@PathVariable Integer shelterId, @PathVariable Integer petId){
         shelterService.deletePet(shelterId,petId);
-        return new ApiResponse<>("200","Successful","done");
+        return new ApiResponse<>("done");
     }
 }

@@ -15,5 +15,10 @@ public class ApiResponse<T> {
         this.message = message;
         this.result = result;
     }
+    public ApiResponse( T result) {
+        ResponseCode = "200";
+        this.message = "Successful";
+        this.result = result;
+    }
 }
 
