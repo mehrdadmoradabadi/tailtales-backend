@@ -32,11 +32,11 @@ public class ApplicationService {
         ApplicationDto applicationDto = new ApplicationDto();
         applicationDto.setComments(application.getComments());
         applicationDto.setDate(application.getDate());
-        applicationDto.setShelterId(application.getShelterId().getShelterId());
-        applicationDto.setPetId(application.getPetId().getPetId());
+        applicationDto.setShelterId(application.getShelter().getShelterId());
+        applicationDto.setPetId(application.getPet().getPetId());
         applicationDto.setStatus(application.getStatus());
         applicationDto.setOutcomeDate(application.getOutcomeDate());
-        applicationDto.setUsername(application.getUserId().getUsername());
+        applicationDto.setUsername(application.getUser().getUsername());
         return applicationDto;
     }
     public SearchResponse<List<ApplicationDto>> fetchAll(int page, String sortBy, String sortDirection){
@@ -75,10 +75,10 @@ public class ApplicationService {
         Application existingApplication = applicationRepository.findById(id).orElse(null);
         assert existingApplication !=null;
         existingApplication.setComments(updatedApplication.getComments());
-        existingApplication.setPetId(pet);
+        existingApplication.setPet(pet);
         existingApplication.setStatus(updatedApplication.getStatus());
         existingApplication.setOutcomeDate(updatedApplication.getOutcomeDate());
-        existingApplication.setUserId(user);
+        existingApplication.setUser(user);
         applicationRepository.save(existingApplication);
     return mapToDto(existingApplication);
     }

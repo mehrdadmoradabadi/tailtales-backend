@@ -37,9 +37,6 @@ public class Shelter {
     @JoinColumn(name = "shelterAdminId")
     private User shelterAdmin;
 
-//    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Pet> pets = new ArrayList<>();
-
     public Shelter(Integer shelterId, String name, String location, String contactInfo, String website, String email, String phone, User shelterAdminId) {
         this.shelterId = shelterId;
         this.name = name;
@@ -49,6 +46,5 @@ public class Shelter {
         this.email = email;
         this.phone = phone;
         this.shelterAdmin = shelterAdminId;
-//        this.pets = pets;
     }
 }

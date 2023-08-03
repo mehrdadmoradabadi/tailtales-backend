@@ -9,7 +9,6 @@ import com.tailtales.production.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ public class MessageService {
         Message message = mapFromDto(newMessage);
         Chat chat = chatService.findOrCreateChatBetweenUsers(message.getSenderUserId(), message.getReceiverUserId());
         System.out.println(message);
-        message.setChatId(chat);
+        message.setChat(chat);
         messageRepository.save(message);
     }
     private ParticipantDto mapToChatParticipant(User user){
