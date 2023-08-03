@@ -1,12 +1,9 @@
 package com.tailtales.production.shelter;
 
-import com.tailtales.production.pet.Pet;
+import com.tailtales.production.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "shelters")
 @Table(name = "shelters")
@@ -36,10 +33,14 @@ public class Shelter {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Pet> pets = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "shelterAdminId")
+    private User shelterAdmin;
 
-    public Shelter(Integer shelterId, String name, String location, String contactInfo, String website, String email, String phone) {
+//    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Pet> pets = new ArrayList<>();
+
+    public Shelter(Integer shelterId, String name, String location, String contactInfo, String website, String email, String phone, User shelterAdminId) {
         this.shelterId = shelterId;
         this.name = name;
         this.location = location;
@@ -47,5 +48,7 @@ public class Shelter {
         this.website = website;
         this.email = email;
         this.phone = phone;
+        this.shelterAdmin = shelterAdminId;
+//        this.pets = pets;
     }
 }

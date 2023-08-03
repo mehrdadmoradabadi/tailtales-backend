@@ -2,20 +2,25 @@ package com.tailtales.production.shelter;
 
 import com.tailtales.production.dto.PetDto;
 import com.tailtales.production.dto.ShelterDto;
+import com.tailtales.production.dto.ShelterRequestDto;
+import com.tailtales.production.message.Message;
 import com.tailtales.production.pet.Pet;
 import com.tailtales.production.utils.ApiResponse;
 import com.tailtales.production.utils.SearchResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/pets")
+@RequestMapping("/api/v1/shelters")
 public class ShelterController {
     @Autowired
     private ShelterService shelterService;
 
+    @Operation(summary = "Fetch all shelter's", description = "Fetch all shelter's. Optionally you can provide 'page number', 'sortBy' and 'sortDirection'.\n" +
+            "Sorting can be done by this parameters: 'name', 'location', 'website'")
     @GetMapping
     public ApiResponse<SearchResponse<List<ShelterDto>>> fetchAll(@RequestParam(defaultValue = "1") int page,
                                                                   @RequestParam(required = false) String sortBy,
@@ -23,37 +28,16 @@ public class ShelterController {
         return new ApiResponse<>(shelterService.fetchAll(page, sortBy, sortDirection));
     }
 
-    @GetMapping("/{shelterId")
-    public ApiResponse<ShelterDto> findById(@PathVariable Integer shelterId){
+    @Operation(summary = "Find a shelter by ID", description = "Find a shelter By shelterId.")
+    @GetMapping("/{shelterId}")
+    public ApiResponse<Shelter> findById(@PathVariable Integer shelterId){
         return new ApiResponse<>(shelterService.findById(shelterId));
     }
 
-    @PatchMapping("/{shelterId")
-    public ApiResponse<Shelter> updateById(@PathVariable Integer shelterId,@RequestBody Shelter updatedShelter){
+    @Operation(summary = "Update a shelter", description = "Update a shelter by shelterId, You need to provide a ShelterRequestDto too.")
+    @PatchMapping("/{shelterId}")
+    public ApiResponse<ShelterDto> updateById(@PathVariable Integer shelterId,@RequestBody ShelterRequestDto updatedShelter){
         return new ApiResponse<>(shelterService.update(shelterId,updatedShelter));
     }
 
-    @GetMapping("/{shelterId}/pets")
-    public ApiResponse<SearchResponse<List<PetDto>>> fetchPets(@PathVariable Integer shelterId,
-                                                            @RequestParam(defaultValue = "1") int page,
-                                                            @RequestParam(required = false) String sortBy,
-                                                            @RequestParam(defaultValue = "asc") String sortDirection){
-        return new ApiResponse<>(shelterService.getPets(shelterId,page,sortBy,sortDirection));
-    }
-
-    @PostMapping(consumes = {"application/json"})
-    public ApiResponse<PetDto> addPet(@PathVariable Integer shelterId, @RequestBody Pet newPet){
-        return new ApiResponse<>(shelterService.addPet(shelterId,newPet));
-    }
-
-    @PatchMapping(path = "/{shelterId}/{petId}",consumes ={"application/json"} )
-    public ApiResponse<PetDto> updatePet(@PathVariable Integer shelterId, @RequestBody Pet updatedPet){
-        return new ApiResponse<>(shelterService.updatePet(shelterId,updatedPet));
-    }
-
-    @DeleteMapping(path = "/{shelterId}/{petId}")
-    public ApiResponse<String> deletePet(@PathVariable Integer shelterId, @PathVariable Integer petId){
-        shelterService.deletePet(shelterId,petId);
-        return new ApiResponse<>("done");
-    }
 }

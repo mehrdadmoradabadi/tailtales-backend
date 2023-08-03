@@ -21,15 +21,15 @@ public class Application {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-    private User user;
+    private User userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shelterId")
-    private Shelter shelter;
+    private Shelter shelterId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "petId")
-    private Pet pet;
+    private Pet petId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -43,4 +43,14 @@ public class Application {
 
     @Column(name = "outcomeDate")
     private LocalDateTime outcomeDate;
+
+    public Application(User user, Shelter shelter, Pet pet, Status status, LocalDateTime date, String comments, LocalDateTime outcomeDate) {
+        this.userId = user;
+        this.shelterId = shelter;
+        this.petId = pet;
+        this.status = status;
+        this.date = date;
+        this.comments = comments;
+        this.outcomeDate = outcomeDate;
+    }
 }

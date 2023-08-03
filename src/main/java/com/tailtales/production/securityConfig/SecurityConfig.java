@@ -31,13 +31,14 @@ public class SecurityConfig {
     }
 
     @Bean
+
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/signup", "/api/v1/auth/login", "/covers/**")
+                .requestMatchers("/api/v1/auth/signup", "/api/v1/auth/login")
                 .permitAll()
                 .requestMatchers("/api/v1/admin").hasRole("ADMIN")
                 .anyRequest()

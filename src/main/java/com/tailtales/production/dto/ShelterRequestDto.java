@@ -1,21 +1,16 @@
 package com.tailtales.production.dto;
 
-import com.tailtales.production.pet.Pet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
-public class ShelterDto {
-    private Integer shelterId;
+public class ShelterRequestDto {
     private String name;
-    private String location;
-    private String contactInfo;
-    private String website;
     private String email;
+    private String website;
     private String phone;
+    private String contactInfo;
+    private String location;
     private Integer shelterAdminId;
-
 }

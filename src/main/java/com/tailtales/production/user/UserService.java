@@ -1,6 +1,8 @@
 package com.tailtales.production.user;
 
+import com.tailtales.production.dto.UpdateUserRequestDto;
 import com.tailtales.production.dto.UserDto;
+import com.tailtales.production.dto.CreateUserRequestDto;
 import com.tailtales.production.utils.SearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,7 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public UserDto mapToDto(User user){
         UserDto userDto = new UserDto();
@@ -25,17 +27,25 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public User add(User user) {
+    public User add(CreateUserRequestDto newUser) {
+        User user = new User();
+        user.setLastName(newUser.getLastName());
+        user.setFirstName(newUser.getFirstName());
+        user.setPassword(newUser.getPassword());
+        user.setProfilePicture(newUser.getProfilePicture());
+        user.setUsername(newUser.getUsername());
         return userRepository.save(user);
     }
 
-    public User updateById(Integer userId, User updatedUser) {
+    public User updateById(Integer userId, UpdateUserRequestDto updatedUser) {
         User existingUser = userRepository.findById(userId).orElse(null);
         if (existingUser == null) {
             return null;
         }
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
+        existingUser.setPassword(updatedUser.getPassword());
+        existingUser.setProfilePicture(updatedUser.getProfilePicture());
         return userRepository.save(existingUser);
     }
 

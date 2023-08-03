@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+
 @Entity(name = "users")
 @Table(name = "users")
 @Data
@@ -17,13 +18,13 @@ public class User {
     @Column(name = "userId")
     private Integer userId;
 
-    @Column(name = "firstName")
+    @Column(name = "firstName",nullable = false)
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "lastName",nullable = false)
     private String lastName;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true,nullable = false)
     private String username;
 
     @Column(name = "profilePicture")
@@ -36,8 +37,7 @@ public class User {
     @Column(name = "role")
     private Role role;
 
-    public User(Integer userId, String firstName, String lastName, String username, String password, Role role, String profilePicture) {
-        this.userId = userId;
+    public User(String firstName, String lastName, String username, String password, Role role, String profilePicture) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

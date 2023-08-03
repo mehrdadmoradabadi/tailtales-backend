@@ -57,11 +57,10 @@ public class Pet {
     private Boolean isNeuteredSpayed;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shelter_id")
+    @JoinColumn(name = "shelterId")
     private Shelter shelter;
 
-    public Pet(Integer petId, String name, String breed, Integer age, Gender gender, String description, List<String> images, String species, String color, String size, Boolean isVaccinated, Boolean isNeuteredSpayed) {
-        this.petId = petId;
+    public Pet(String name, String breed, Integer age, Gender gender, String description, List<String> images, String species, String color, String size, Boolean isVaccinated, Boolean isNeuteredSpayed, Shelter shelter) {
         this.name = name;
         this.breed = breed;
         this.age = age;
@@ -73,5 +72,6 @@ public class Pet {
         this.size = size;
         this.isVaccinated = isVaccinated;
         this.isNeuteredSpayed = isNeuteredSpayed;
+        this.shelter = shelter;
     }
 }
