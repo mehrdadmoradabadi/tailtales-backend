@@ -2,7 +2,6 @@ package com.tailtales.production.admin;
 
 import com.tailtales.production.dto.ShelterDto;
 import com.tailtales.production.dto.ShelterRequestDto;
-import com.tailtales.production.shelter.Shelter;
 import com.tailtales.production.shelter.ShelterService;
 import com.tailtales.production.utils.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +20,6 @@ public class AdminShelterController {
         return new ApiResponse<>("200","Successful",shelterService.add(newShelter));
     }
     @Operation(summary = "Delete shelter by ID", description = "Delete a shelter by Id and returns Done.")
-
     @DeleteMapping("/{shelterId}")
     public ApiResponse<String> delete(@PathVariable Integer shelterId){
         shelterService.delete(shelterId);
