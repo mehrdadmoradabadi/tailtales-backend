@@ -1,10 +1,7 @@
 package com.tailtales.production.shelter;
 
-import com.tailtales.production.dto.PetDto;
 import com.tailtales.production.dto.ShelterDto;
 import com.tailtales.production.dto.ShelterRequestDto;
-import com.tailtales.production.message.Message;
-import com.tailtales.production.pet.Pet;
 import com.tailtales.production.utils.ApiResponse;
 import com.tailtales.production.utils.SearchResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/shelters")
+@CrossOrigin(origins = "*")
 public class ShelterController {
     @Autowired
     private ShelterService shelterService;

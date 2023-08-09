@@ -31,7 +31,7 @@ public class MessageService {
         Message message = mapFromDto(newMessage);
         Chat chat = chatService.findOrCreateChatBetweenUsers(message.getSenderUserId(), message.getReceiverUserId());
         System.out.println(message);
-        message.setChat(chat);
+        message.setChatId(chat);
         messageRepository.save(message);
     }
     private ParticipantDto mapToChatParticipant(User user){

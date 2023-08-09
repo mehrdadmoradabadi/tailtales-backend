@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pets")
+@CrossOrigin(origins = "*")
 public class PetController {
     @Autowired
     private PetService petService;

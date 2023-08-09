@@ -1,11 +1,6 @@
 package com.tailtales.production.message;
 
-import com.tailtales.production.chat.Chat;
-import com.tailtales.production.chat.ChatService;
 import com.tailtales.production.dto.MessageDto;
-import com.tailtales.production.dto.ShelterDto;
-import com.tailtales.production.shelter.Shelter;
-import com.tailtales.production.shelter.ShelterService;
 import com.tailtales.production.utils.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/messages")
+@CrossOrigin(origins = "*")
 public class MessageController {
     @Autowired
     private MessageService messageService;

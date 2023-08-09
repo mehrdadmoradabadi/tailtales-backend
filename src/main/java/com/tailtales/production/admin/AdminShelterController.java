@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/admin/shelter")
+@CrossOrigin(origins = "*")
 public class AdminShelterController {
     @Autowired
     private ShelterService shelterService;

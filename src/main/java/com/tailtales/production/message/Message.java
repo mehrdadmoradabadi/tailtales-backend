@@ -19,7 +19,7 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatId")
-    private Chat chat;
+    private Chat chatId;
 
     @Column(name = "senderUserId", nullable = false)
     private Integer senderUserId;
@@ -36,13 +36,4 @@ public class Message {
     @Column(name = "isRead", nullable = false)
     private Boolean isRead;
 
-    public Message(Long messageId, Chat chat, Integer senderUserId, Integer receiverUserId, String content, LocalDateTime sentDateTime, Boolean isRead) {
-        this.messageId = messageId;
-        this.chat = chat;
-        this.senderUserId = senderUserId;
-        this.receiverUserId = receiverUserId;
-        this.content = content;
-        this.sentDateTime = sentDateTime;
-        this.isRead = isRead;
-    }
 }
