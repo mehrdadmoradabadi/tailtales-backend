@@ -30,11 +30,23 @@ public class PetService {
         petDto.setSpecies(pet.getSpecies());
         petDto.setDescription(pet.getDescription());
         petDto.setShelterId(pet.getShelter().getShelterId());
+        petDto.setColor(pet.getColor());
+        petDto.setIsNeuteredSpayed(pet.getIsNeuteredSpayed());
+        petDto.setIsVaccinated(pet.getIsVaccinated());
+        petDto.setSize(pet.getSize());
+        petDto.setRegisterNumber(pet.getRegisterNumber());
         return petDto;
     }
-    public SearchResponse<List<PetDto>> fetchAll(int page, String sortBy,String sortDirection){
+    public SearchResponse<List<PetDto>> fetchAll(int page, String sortBy,String sortDirection, String search){
         int pageSize = 10;
-        List<Pet> allPets = petRepository.findAll();
+        List<Pet> allPets;
+
+        if (search != null && !search.isEmpty()) {
+            // Search for pets by name or breed
+            allPets = petRepository.findByNameContainingIgnoreCaseOrBreedContainingIgnoreCase(search, search);
+        } else {
+            allPets = petRepository.findAll();
+        }
         if (sortBy != null) {
             Comparator<Pet> comparator = switch (sortBy.toLowerCase()) {
                 case "name" -> Comparator.comparing(Pet::getName);

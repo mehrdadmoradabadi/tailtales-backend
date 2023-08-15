@@ -1,5 +1,6 @@
 package com.tailtales.production.auth;
 
+import com.tailtales.production.dto.AuthCreateUserRequestDto;
 import com.tailtales.production.exceptions.authentication.AuthenticationExceptions;
 import com.tailtales.production.exceptions.login.Exceptions;
 import com.tailtales.production.user.*;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
     @Autowired
     private UserService userService;

@@ -9,11 +9,13 @@ public class ParticipantDto {
     private String image;
     private Integer id;
     private String username;
+    private String fullName;
 
-    public ParticipantDto(String image, Integer id,String username) {
+    public ParticipantDto(String image, Integer id,String username,String fullName) {
         this.image = image;
         this.id = id;
         this.username = username;
+        this.fullName = fullName;
     }
 
     // Getters and setters (if needed)

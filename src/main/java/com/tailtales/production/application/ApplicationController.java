@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/applications")
-@CrossOrigin(origins = "*")
 public class ApplicationController {
     @Autowired
     private ApplicationService applicationService;

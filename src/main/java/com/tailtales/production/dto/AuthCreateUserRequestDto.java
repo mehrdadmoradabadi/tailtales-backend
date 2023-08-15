@@ -1,4 +1,4 @@
-package com.tailtales.production.auth;
+package com.tailtales.production.dto;
 
 import com.tailtales.production.user.Role;
 import lombok.Data;

@@ -17,4 +17,9 @@ public class PetDto {
     private List<String> images;
     private String species;
     private Integer shelterId;
+    private String color;
+    private Boolean isNeuteredSpayed;
+    private Boolean isVaccinated;
+    private String size;
+    private Integer registerNumber;
 }

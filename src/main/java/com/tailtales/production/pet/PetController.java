@@ -13,19 +13,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pets")
-@CrossOrigin(origins = "*")
 public class PetController {
     @Autowired
     private PetService petService;
 
     @Operation(summary = "Fetch all pets ", description = "Fetch all pets . Optionally you can provide 'page number', 'sortBy' and 'sortDirection'.\n" +
-            "Sorting can be done by this parameters: 'name', 'age', 'breed', 'species', 'gender'")
+            "Sorting can be done by this parameters: 'name', 'age', 'breed', 'species', 'gender' also search is available by name or breed")
     @GetMapping
     public ApiResponse<SearchResponse<List<PetDto>>> fetchAll(@RequestParam(defaultValue = "1") int page,
                                                               @RequestParam(required = false) String sortBy,
-                                                              @RequestParam(defaultValue = "asc") String sortDirection){
+                                                              @RequestParam(defaultValue = "asc") String sortDirection,
+                                                              @RequestParam(required = false) String search){
         String message = "Successful";
-        return new ApiResponse<>("200",message,petService.fetchAll(page,sortBy,sortDirection));
+        return new ApiResponse<>("200",message,petService.fetchAll(page,sortBy,sortDirection,search));
     }
     @Operation(summary = "Fetch all pets of a shelter", description = "Fetch all pets By shelterId. Optionally you can provide 'page number', 'sortBy' and 'sortDirection'.\n" +
             "Sorting can be done by this parameters: 'name', 'age', 'breed', 'species', 'gender'")

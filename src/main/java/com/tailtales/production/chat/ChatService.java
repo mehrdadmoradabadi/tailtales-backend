@@ -7,7 +7,6 @@ import com.tailtales.production.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +21,7 @@ public class ChatService {
         participantDto.setUsername(user.getUsername());
         participantDto.setId(user.getUserId());
         participantDto.setImage(user.getProfilePicture());
+        participantDto.setFullName(user.getFirstName()+" "+user.getLastName());
         return participantDto;
     }
     public Chat add(Chat chat){
