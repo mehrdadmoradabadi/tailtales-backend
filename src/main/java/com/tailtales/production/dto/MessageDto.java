@@ -13,12 +13,7 @@ public class MessageDto {
     private ChatDto chat;
     private LocalDateTime sendDateTime;
     private Boolean isRead;
+    private ParticipantDto sender;
+    private ParticipantDto receiver;
 
-    public MessageDto(String content, Long messageId, ChatDto chat, LocalDateTime sendDateTime, Boolean isRead) {
-        this.content = content;
-        this.messageId = messageId;
-        this.chat = chat;
-        this.sendDateTime = sendDateTime;
-        this.isRead = isRead;
-    }
 }

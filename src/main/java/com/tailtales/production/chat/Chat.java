@@ -19,18 +19,12 @@ public class Chat {
     private String subject;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "firstParticipant",referencedColumnName = "userId")
     private User firstParticipant;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "secondParticipant",referencedColumnName = "userId")
     private User secondParticipant;
 
-    public Chat(Integer chatId, String subject, User firstParticipantId, User secondParticipantId) {
-        this.chatId = chatId;
-        this.subject = subject;
-        this.firstParticipant = firstParticipantId;
-        this.secondParticipant = secondParticipantId;
-    }
 }

@@ -47,6 +47,7 @@ public class JwtUtils {
         claims.put("user_id", user.getUserId());
         claims.put("username", user.getUsername());
         claims.put("role", user.getRole());
+        claims.put("fullName", user.getFirstName()+" "+user.getLastName());
         claims.put("profilePicture",user.getProfilePicture());
         return createToken(claims, user.getUsername());
     }

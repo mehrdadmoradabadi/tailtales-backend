@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SearchResponse<T> {
     private int page;
-    private int total;
+    private long total;
     private T ObjectList;
 }

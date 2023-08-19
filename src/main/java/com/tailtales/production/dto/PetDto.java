@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class PetDto {
+    private Integer id;
     private String name;
     private String breed;
     private Integer age;

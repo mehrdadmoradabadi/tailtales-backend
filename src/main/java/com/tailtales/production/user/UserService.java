@@ -39,16 +39,29 @@ public class UserService {
 
     }
 
-    public SearchResponse<List<User>> findAll(int page) {
-        List<User> allUsers = userRepository.findAll();
+    public SearchResponse<List<User>> findAll(int page,String search) {
+        List<User> allUsers;
+        long totalUsers;
+        if (search != null && !search.isEmpty()) {
+            // Search for pets by name or breed
+            allUsers = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrUsernameContainingIgnoreCase(search, search,search);
+             totalUsers = allUsers.size();
+        } else {
+            allUsers = userRepository.findAll();
+            totalUsers = userRepository.count();
+        }
         int pageSize = 10;
-        int totalUsers = allUsers.size();
-        int totalPages = (totalUsers + pageSize - 1) / pageSize;
+
+        long totalPages = (totalUsers + pageSize - 1) / pageSize;
+        if(page!=0){
         List<User> usersOnPage = allUsers.stream()
                 .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
-        return new SearchResponse<>(page,totalPages,usersOnPage);
+        return new SearchResponse<>(page,totalPages,usersOnPage);}
+
+        else {
+        return new SearchResponse<>(page,totalPages,allUsers);}
     }
 
     public User signUp(User user) {

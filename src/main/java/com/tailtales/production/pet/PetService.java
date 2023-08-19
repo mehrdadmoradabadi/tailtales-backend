@@ -22,6 +22,7 @@ public class PetService {
     private ShelterService shelterService;
     public PetDto mapToDto(Pet pet){
         PetDto petDto = new PetDto();
+        petDto.setId(pet.getPetId());
         petDto.setName(pet.getName());
         petDto.setAge(pet.getAge());
         petDto.setBreed(pet.getBreed());
@@ -40,7 +41,7 @@ public class PetService {
     public SearchResponse<List<PetDto>> fetchAll(int page, String sortBy,String sortDirection, String search){
         int pageSize = 10;
         List<Pet> allPets;
-
+        List<PetDto> petDtosList;
         if (search != null && !search.isEmpty()) {
             // Search for pets by name or breed
             allPets = petRepository.findByNameContainingIgnoreCaseOrBreedContainingIgnoreCase(search, search);
@@ -64,13 +65,15 @@ public class PetService {
         }
         int totalPets = allPets.size();
         int totalPages = (totalPets + pageSize - 1) / pageSize;
+        if (page != 0){
         List<Pet> petsOnPage = allPets.stream()
                 .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .toList()
                 ;
-        List<PetDto> petDtosList= petsOnPage.stream().map(this::mapToDto).collect(Collectors.toList());
-        return new SearchResponse<List<PetDto>>(page,totalPets,petDtosList);
+        petDtosList= petsOnPage.stream().map(this::mapToDto).toList();}
+        else { petDtosList=allPets.stream().map(this::mapToDto).toList();}
+        return new SearchResponse<>(page, totalPages, petDtosList);
     }
 
     public PetDto findById(Integer id){
@@ -130,6 +133,7 @@ public class PetService {
 
     public SearchResponse<List<PetDto>> getPetsByShelter(Integer shelterId,int page, String sortBy, String sortDirection) {
         int pageSize = 10;
+        List<PetDto> petDtosList;
         Shelter shelter = shelterService.findById(shelterId);
         assert shelter != null;
         List<Pet> allPets = petRepository.findByShelter(shelter);
@@ -149,12 +153,14 @@ public class PetService {
         }
         int totalPets = allPets.size();
         int totalPages = (totalPets + pageSize - 1) / pageSize;
+        if(page != 0){
         List<Pet> petsOnPage = allPets.stream()
                 .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .toList()
                 ;
-        List<PetDto> petDtosList= petsOnPage.stream().map(this::mapToDto).collect(Collectors.toList());
-        return new SearchResponse<List<PetDto>>(page,totalPets,petDtosList);
+        petDtosList= petsOnPage.stream().map(this::mapToDto).collect(Collectors.toList());}
+        else {petDtosList= allPets.stream().map(this::mapToDto).collect(Collectors.toList());}
+        return new SearchResponse<>(page, totalPages, petDtosList);
     }
 }

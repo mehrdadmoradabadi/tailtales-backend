@@ -16,9 +16,8 @@ public class MessageController {
 
     @Operation(summary = "Send new message ", description = "Use this method to send message. you need to send the MessageRequestDTO object")
     @PostMapping(path = "/sendMessage", consumes = {"application/json"})
-    public ApiResponse<String> sendMessage( @RequestBody MessageRequestDTO message){
-        messageService.sendMessage(message);
-        return new ApiResponse<>("Message Sent!");
+    public ApiResponse<MessageDto> sendMessage( @RequestBody MessageRequestDTO message){
+        return new ApiResponse<>(messageService.sendMessage(message));
     }
 
     @Operation(summary = "Fetch all messages for a chat", description = "Use this to fetch all messages for a chat.")

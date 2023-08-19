@@ -32,9 +32,20 @@ public class ShelterService {
         return shelterDto;
     }
 
-    public SearchResponse<List<ShelterDto>>fetchAll(int page, String sortBy, String sortDirection){
+    public SearchResponse<List<ShelterDto>>fetchAll(int page, String sortBy, String sortDirection,String search){
         int pageSize = 10;
-        List<Shelter> allShelters = shelterRepository.findAll();
+        List<Shelter> allShelters;
+        List<ShelterDto> shelterDtosList;
+        long totalShelters ;
+        if (search != null && !search.isEmpty()) {
+            // Search for pets by name or breed
+            allShelters = shelterRepository.findByNameContainingIgnoreCaseOrLocationContainingIgnoreCase(search, search);
+            totalShelters = allShelters.size();
+        } else {
+            allShelters = shelterRepository.findAll();
+            totalShelters = shelterRepository.count();
+        }
+
         if (sortBy != null) {
             Comparator<Shelter> comparator = switch (sortBy.toLowerCase()) {
                 case "name" -> Comparator.comparing(Shelter::getName);
@@ -47,15 +58,17 @@ public class ShelterService {
             }
             allShelters.sort(comparator);
         }
-        int totalShelters = allShelters.size();
-        int totalPages = (totalShelters + pageSize - 1) / pageSize;
+
+        long totalPages = (totalShelters + pageSize - 1) / pageSize;
+        if(page != 0){
         List<Shelter> sheltersOnPage = allShelters.stream()
                 .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .toList()
                 ;
-        List<ShelterDto> shelterDtosList= sheltersOnPage.stream().map(this::mapToDto).collect(Collectors.toList());
-        return new SearchResponse<List<ShelterDto>>(page,totalShelters,shelterDtosList);
+        shelterDtosList= sheltersOnPage.stream().map(this::mapToDto).collect(Collectors.toList());}
+        else { shelterDtosList= allShelters.stream().map(this::mapToDto).collect(Collectors.toList());}
+        return new SearchResponse<>(page, totalPages, shelterDtosList);
     }
 
     public Shelter findById(Integer id){

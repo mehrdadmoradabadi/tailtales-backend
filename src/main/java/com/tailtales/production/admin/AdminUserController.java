@@ -22,11 +22,13 @@ public class AdminUserController {
     @Operation(summary = "Fetch All Users ", description = "To retrieve all users from database.")
 
     @GetMapping
-    public ApiResponse<SearchResponse<List<User>>> fetchAll(@RequestParam(defaultValue = "1") int page) {
+    public ApiResponse<SearchResponse<List<User>>> fetchAll(@RequestParam(defaultValue = "0") int page ,@RequestParam(required = false) String search) {
 
         String message = "Successfully fetched users on page " + page;
-        return new ApiResponse<>("200", message, userService.findAll(page));
+        return new ApiResponse<>("200", message, userService.findAll(page,search));
     }
+    @Operation(summary = "Promote a user ", description = "To Change a users role. send a Role")
+
     @PatchMapping(consumes = {"application/json"},path = "/{userId}")
     public ApiResponse<String> promote(@PathVariable Integer userId, @RequestBody Role role){
         userService.promote(userId,role);

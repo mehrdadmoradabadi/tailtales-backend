@@ -17,12 +17,13 @@ public class ShelterController {
     private ShelterService shelterService;
 
     @Operation(summary = "Fetch all shelter's", description = "Fetch all shelter's. Optionally you can provide 'page number', 'sortBy' and 'sortDirection'.\n" +
-            "Sorting can be done by this parameters: 'name', 'location', 'website'")
+            "Sorting can be done by this parameters: 'name', 'location', 'website', and also search by name or location")
     @GetMapping
-    public ApiResponse<SearchResponse<List<ShelterDto>>> fetchAll(@RequestParam(defaultValue = "1") int page,
+    public ApiResponse<SearchResponse<List<ShelterDto>>> fetchAll(@RequestParam(defaultValue = "0") int page,
                                                                   @RequestParam(required = false) String sortBy,
-                                                                  @RequestParam(defaultValue = "asc") String sortDirection){
-        return new ApiResponse<>(shelterService.fetchAll(page, sortBy, sortDirection));
+                                                                  @RequestParam(defaultValue = "asc") String sortDirection,
+                                                                  @RequestParam(required = false) String search){
+        return new ApiResponse<>(shelterService.fetchAll(page, sortBy, sortDirection,search));
     }
 
     @Operation(summary = "Find a shelter by ID", description = "Find a shelter By shelterId.")
