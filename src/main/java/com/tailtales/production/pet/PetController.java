@@ -23,18 +23,10 @@ public class PetController {
     public ApiResponse<SearchResponse<List<PetDto>>> fetchAll(@RequestParam(defaultValue = "0") Integer page,
                                                               @RequestParam(required = false) String sortBy,
                                                               @RequestParam(defaultValue = "asc") String sortDirection,
-                                                              @RequestParam(required = false) String search){
+                                                              @RequestParam(required = false) String search,
+                                                              @RequestParam(required = false,defaultValue = "0") Integer shelterId){
 
-        return new ApiResponse<>(petService.fetchAll(page,sortBy,sortDirection,search));
-    }
-    @Operation(summary = "Fetch all pets of a shelter", description = "Fetch all pets By shelterId. Optionally you can provide 'page number', 'sortBy' and 'sortDirection'.\n" +
-            "Sorting can be done by this parameters: 'name', 'age', 'breed', 'species', 'gender'")
-    @GetMapping("/shelter/{shelterId}")
-    public ApiResponse<SearchResponse<List<PetDto>>> fetchAllByShelterId(@RequestParam Integer shelterId,
-                                                                         @RequestParam(defaultValue = "0") int page,
-                                                              @RequestParam(required = false) String sortBy,
-                                                              @RequestParam(defaultValue = "asc") String sortDirection){
-        return new ApiResponse<>(petService.getPetsByShelter(shelterId,page,sortBy,sortDirection));
+        return new ApiResponse<>(petService.fetchAll(page,sortBy,sortDirection,search,shelterId));
     }
 
     @Operation(summary = "Add a new Pet", description = "Add a new Pet to Database. you need to send CreatePetRequestDto Object.")

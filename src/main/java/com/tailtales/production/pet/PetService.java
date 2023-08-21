@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -38,15 +37,18 @@ public class PetService {
         petDto.setRegisterNumber(pet.getRegisterNumber());
         return petDto;
     }
-    public SearchResponse<List<PetDto>> fetchAll(int page, String sortBy,String sortDirection, String search){
+    public SearchResponse<List<PetDto>> fetchAll(int page, String sortBy, String sortDirection, String search, Integer shelterId){
         int pageSize = 10;
         List<Pet> allPets;
         List<PetDto> petDtosList;
         if (search != null && !search.isEmpty()) {
-            // Search for pets by name or breed
             allPets = petRepository.findByNameContainingIgnoreCaseOrBreedContainingIgnoreCase(search, search);
         } else {
             allPets = petRepository.findAll();
+        }
+        if(shelterId!=0 ){
+            Shelter shelter = shelterService.findById(shelterId);
+            allPets = allPets.stream().filter((pet -> pet.getShelter() == shelter)).toList();
         }
         if (sortBy != null) {
             Comparator<Pet> comparator = switch (sortBy.toLowerCase()) {
@@ -55,7 +57,6 @@ public class PetService {
                 case "breed" -> Comparator.comparing(Pet::getBreed);
                 case "age" -> Comparator.comparing(Pet::getAge);
                 case "gender" -> Comparator.comparing(Pet::getGender);
-                // Add more cases for other fields you want to sort by
                 default -> throw new IllegalArgumentException("Invalid sortBy parameter: " + sortBy);
             };
             if ("desc".equalsIgnoreCase(sortDirection)) {
@@ -131,36 +132,4 @@ public class PetService {
     }
 
 
-    public SearchResponse<List<PetDto>> getPetsByShelter(Integer shelterId,int page, String sortBy, String sortDirection) {
-        int pageSize = 10;
-        List<PetDto> petDtosList;
-        Shelter shelter = shelterService.findById(shelterId);
-        assert shelter != null;
-        List<Pet> allPets = petRepository.findByShelter(shelter);
-        if (sortBy != null) {
-            Comparator<Pet> comparator = switch (sortBy.toLowerCase()) {
-                case "name" -> Comparator.comparing(Pet::getName);
-                case "species" -> Comparator.comparing(Pet::getSpecies);
-                case "breed" -> Comparator.comparing(Pet::getBreed);
-                case "age" -> Comparator.comparing(Pet::getAge);
-                case "gender" -> Comparator.comparing(Pet::getGender);
-                default -> throw new IllegalArgumentException("Invalid sortBy parameter: " + sortBy);
-            };
-            if ("desc".equalsIgnoreCase(sortDirection)) {
-                comparator = comparator.reversed();
-            }
-            allPets.sort(comparator);
-        }
-        int totalPets = allPets.size();
-        int totalPages = (totalPets + pageSize - 1) / pageSize;
-        if(page != 0){
-        List<Pet> petsOnPage = allPets.stream()
-                .skip((long) (page - 1) * pageSize)
-                .limit(pageSize)
-                .toList()
-                ;
-        petDtosList= petsOnPage.stream().map(this::mapToDto).collect(Collectors.toList());}
-        else {petDtosList= allPets.stream().map(this::mapToDto).collect(Collectors.toList());}
-        return new SearchResponse<>(page, totalPages, petDtosList);
-    }
 }
