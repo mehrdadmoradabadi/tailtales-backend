@@ -18,7 +18,7 @@ public class ApplicationController {
 
     @Operation(summary = "Fetch All", description = "Fetch all application's. Optionally you can provide 'page number', 'sortBy' and 'sortDirection'.\n" +
             "Sorting can be done by this parameters: 'date', 'status'")
-    @GetMapping
+    @GetMapping("/")
     public ApiResponse<SearchResponse<List<ApplicationDto>>> fetchAll(@RequestParam(defaultValue = "1") int page,
                                                                       @RequestParam(required = false) String sortBy,
                                                                       @RequestParam(defaultValue = "asc") String sortDirection){

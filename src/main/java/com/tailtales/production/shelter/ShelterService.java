@@ -109,4 +109,8 @@ public class ShelterService {
     }
 
 
+    public ShelterDto findByAdminId(Integer adminId) {
+        User admin = userService.findById(adminId);
+        return mapToDto(shelterRepository.findByShelterAdmin(admin));
+    }
 }

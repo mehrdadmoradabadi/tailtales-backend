@@ -18,7 +18,7 @@ public class ShelterController {
 
     @Operation(summary = "Fetch all shelter's", description = "Fetch all shelter's. Optionally you can provide 'page number', 'sortBy' and 'sortDirection'.\n" +
             "Sorting can be done by this parameters: 'name', 'location', 'website', and also search by name or location")
-    @GetMapping
+    @GetMapping("/")
     public ApiResponse<SearchResponse<List<ShelterDto>>> fetchAll(@RequestParam(defaultValue = "0") int page,
                                                                   @RequestParam(required = false) String sortBy,
                                                                   @RequestParam(defaultValue = "asc") String sortDirection,
@@ -27,13 +27,19 @@ public class ShelterController {
     }
 
     @Operation(summary = "Find a shelter by ID", description = "Find a shelter By shelterId.")
-    @GetMapping("/{shelterId}")
+    @GetMapping("/shelter/{shelterId}")
     public ApiResponse<Shelter> findById(@PathVariable Integer shelterId){
         return new ApiResponse<>(shelterService.findById(shelterId));
     }
 
+    @Operation(summary = "Find a shelter by Admin ID", description = "Find a shelter By AdminId.")
+    @GetMapping("/admin/{adminId}")
+    public ApiResponse<ShelterDto> findByAdminId(@PathVariable Integer adminId){
+        return new ApiResponse<>(shelterService.findByAdminId(adminId));
+    }
+
     @Operation(summary = "Update a shelter", description = "Update a shelter by shelterId, You need to provide a ShelterRequestDto too.")
-    @PatchMapping("/{shelterId}")
+    @PatchMapping("/shelter/{shelterId}")
     public ApiResponse<ShelterDto> updateById(@PathVariable Integer shelterId,@RequestBody ShelterRequestDto updatedShelter){
         return new ApiResponse<>(shelterService.update(shelterId,updatedShelter));
     }
